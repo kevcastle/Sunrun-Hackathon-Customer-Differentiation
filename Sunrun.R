@@ -49,4 +49,14 @@ google_postal$Service.Zip <- google_postal$region_name
 #inner joining to have the ones that are included in both tables
 (gp_total_in_merged <- inner_join(google_postal,Total_installations_per_zipcode))
 
-gp_total_in_merged$variance <- gp_total_in_merged$count/gp_total_in_merged$count_qualified
+#creating a column to see the percentage of zip codes adopting solar panels basd on potential
+gp_total_in_merged$variance <- gp_total_in_merged$count/gp_total_in_merged$count_qualified*100
+
+library(sqldf)
+
+gp_SQL <- sqldf("SELECT `region_Name`, `count_qualified`,`count`,`variance`
+                    FROM gp_total_in_merged
+                    ;
+                    ")
+  
+
